@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"bufio"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func readInts(name string) []int {
+func ReadInts(name string) []int {
 	file, err := os.Open(name)
 	if err != nil {
 		log.Fatalln(err)
@@ -25,4 +25,20 @@ func readInts(name string) []int {
 		}
 	}
 	return ints
+}
+
+func ReadStrings(name string) []string {
+	file, err := os.Open(name)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+
+	lines := make([]string, 0, 1000)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines
 }

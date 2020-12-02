@@ -1,11 +1,13 @@
-package main
+package day1
 
 import (
 	"testing"
+
+	"github.com/sshilin/aoc2020/utils"
 )
 
 var (
-	input = readInts("day1_input.txt")
+	input = utils.ReadInts("day1_input.txt")
 )
 
 func Test_part1(t *testing.T) {
