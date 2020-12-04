@@ -1,4 +1,4 @@
-package day1
+package day3
 
 import (
 	"testing"
@@ -16,8 +16,8 @@ type Slope struct {
 
 func evaluate(slope Slope) int {
 	col, trees := 0, 0
-	for row, line := range input {
-		if row%slope.y == 0 {
+	for rowNum, line := range input {
+		if rowNum%slope.y == 0 {
 			if line[col] == '#' {
 				trees++
 			}
