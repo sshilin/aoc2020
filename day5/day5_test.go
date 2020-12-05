@@ -11,56 +11,56 @@ import (
 
 var (
 	input = utils.ReadStrings("day5_input.txt")
-	// input = utils.ReadStrings("test.txt")
 )
 
 func Test_part1(t *testing.T) {
-	result := 0
+	maxID := 0
 	for _, line := range input {
-		line = strings.ReplaceAll(line, "F", "0")
-		line = strings.ReplaceAll(line, "B", "1")
-		line = strings.ReplaceAll(line, "L", "0")
-		line = strings.ReplaceAll(line, "R", "1")
+		line = strings.Map(func(r rune) rune {
+			if r == 'F' || r == 'L' {
+				return '0'
+			}
+			return '1'
+		}, line)
+
 		row, _ := strconv.ParseInt(line[:7], 2, 64)
 		col, _ := strconv.ParseInt(line[7:], 2, 64)
 
-		id := row*8 + col
+		id := int(row*8 + col)
 
-		if int(id) > result {
-			result = int(id)
+		if id > maxID {
+			maxID = id
 		}
 	}
-	t.Log("Result:", result)
+
+	t.Log("Result:", maxID) // 885
 }
 
 func Test_part2(t *testing.T) {
-
-	ids := make([]int, 0)
+	seatIDs := make([]int, 0)
 
 	for _, line := range input {
-		line = strings.ReplaceAll(line, "F", "0")
-		line = strings.ReplaceAll(line, "B", "1")
-		line = strings.ReplaceAll(line, "L", "0")
-		line = strings.ReplaceAll(line, "R", "1")
-		row, _ := strconv.ParseInt(line[:7], 2, 32)
-		col, _ := strconv.ParseInt(line[7:], 2, 32)
+		line = strings.Map(func(r rune) rune {
+			if r == 'F' || r == 'L' {
+				return '0'
+			}
+			return '1'
+		}, line)
 
-		id := row*8 + col
+		row, _ := strconv.ParseInt(line[:7], 2, 64)
+		col, _ := strconv.ParseInt(line[7:], 2, 64)
 
-		ids = append(ids, int(id))
-
-		// t.Log(line, "[row=", row, " col=", col, "]")
+		seatIDs = append(seatIDs, int(row*8+col))
 	}
 
-	sort.Ints(ids)
-	seat := ids[0]
-	for i := 1; i < len(ids); i++ {
-		seat++
-		t.Log(ids[i])
-		if ids[i] != seat {
-			t.Log("================>", seat) // 623?
+	sort.Ints(seatIDs)
+	mySeatID := seatIDs[0]
+
+	for i := 1; i < len(seatIDs); i++ {
+		mySeatID++
+		if seatIDs[i] != mySeatID {
+			t.Log("Result:", mySeatID) // 623
+			return
 		}
 	}
-
-	t.Log(ids)
 }
