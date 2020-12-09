@@ -51,15 +51,3 @@ func Test_part2(t *testing.T) {
 		}
 	}
 }
-
-// func Test_part3(t *testing.T) {
-// 	a := make([]int, 0)
-
-// 	a = append(a, 23)
-// 	a = append(a, 3)
-// 	a = append(a, 10)
-
-// 	sort.Ints(a)
-// 	t.Log("====>", a)
-// 	t.Log("====>", sort.SearchInts(a, 100) && a)
-// }
