@@ -11,10 +11,10 @@ var (
 	input = utils.ReadInts("day9_input.txt")
 )
 
-func searchInPreamble(len, offset, x int) bool {
-	for i := offset; i < offset+len-1; i++ {
-		for j := i + 1; j < offset+len; j++ {
-			if input[i]+input[j] == x {
+func searchInPreamble(preamble []int, x int) bool {
+	for i := 0; i < len(preamble)-1; i++ {
+		for j := i + 1; j < len(preamble); j++ {
+			if preamble[i]+preamble[j] == x {
 				return true
 			}
 		}
@@ -23,14 +23,13 @@ func searchInPreamble(len, offset, x int) bool {
 }
 
 func Test_part1(t *testing.T) {
-	offset := 0
-	preambleLen := 25
-	for i := preambleLen; i < len(input); i++ {
-		if !searchInPreamble(preambleLen, offset, input[i]) {
+	preamble := 25
+
+	for i := preamble; i < len(input); i++ {
+		if !searchInPreamble(input[i-preamble:i], input[i]) {
 			t.Log("Result:", input[i]) // 2089807806
 			return
 		}
-		offset++
 	}
 }
 
