@@ -45,20 +45,20 @@ func gcd(a, b int) int {
 }
 
 func Test_part2(t *testing.T) {
-	buses := map[int]int{}
+	fleet := map[int]int{}
 
 	for i, bus := range strings.Split(input[1], ",") {
 		if bus != "x" {
 			id, _ := strconv.Atoi(bus)
-			buses[id] = i
+			fleet[id] = i
 		}
 	}
 
-	t.Log(buses)
+	t.Log(fleet)
 
 	step := 1
 	timestamp := 0
-	for k, v := range buses {
+	for k, v := range fleet {
 		id := k
 		offset := v
 		for {
