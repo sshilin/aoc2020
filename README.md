@@ -1,6 +1,8 @@
-## Running solutions
+# Advent of Code 2020
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/sshilin/aoc2020)](https://goreportcard.com/report/github.com/sshilin/aoc2020) [![License](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE)
+
+## Running solutions
 
 Both parts
 
