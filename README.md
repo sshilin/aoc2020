@@ -1,3 +1,7 @@
+# Advent of Code 2020
+
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/sshilin/aoc2020) [![Go Report Card](https://goreportcard.com/badge/github.com/sshilin/aoc2020)](https://goreportcard.com/report/github.com/sshilin/aoc2020) [![License](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE)
+
 ## Running solutions
 
 Both parts
