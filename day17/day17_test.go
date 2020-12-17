@@ -14,74 +14,62 @@ type coord struct {
 	x, y, z, w int
 }
 
-func neighbors(c coord, grid map[coord]byte, state byte, mode string) []coord {
+func neighbors(c coord, grid map[coord]bool, mode string) ([]coord, []coord) {
 	wRange := []int{0}
 	if mode == "4d" {
 		wRange = []int{1, 0, -1}
 	}
-
-	coords := make([]coord, 0)
+	active := make([]coord, 0)
+	inactive := make([]coord, 0)
 	for _, x := range []int{1, 0, -1} {
 		for _, y := range []int{1, 0, -1} {
 			for _, z := range []int{1, 0, -1} {
 				for _, w := range wRange {
 					if x == 0 && y == 0 && z == 0 && w == 0 {
 						continue
-					} else if grid[coord{x: c.x + x, y: c.y + y, z: c.z + z, w: c.w + w}] == state {
-						coords = append(coords, coord{x: c.x + x, y: c.y + y, z: c.z + z, w: c.w + w})
+					}
+					nc := coord{c.x + x, c.y + y, c.z + z, c.w + w}
+					if _, ok := grid[nc]; ok {
+						active = append(active, nc)
+					} else {
+						inactive = append(inactive, nc)
 					}
 				}
 			}
 		}
 	}
-	return coords
+	return active, inactive
 }
 
 func run(mode string) int {
-	grid := map[coord]byte{}
+	grid := map[coord]bool{}
 
 	for y := 0; y < len(input); y++ {
-		for x := 0; x < len(input); x++ {
-			if input[x][y] == '#' {
-				grid[coord{x: x, y: y, z: 0}] = input[x][y]
+		for x := 0; x < len(input[0]); x++ {
+			if input[y][x] == '#' {
+				grid[coord{x, y, 0, 0}] = true
 			}
 		}
 	}
 
 	for i := 0; i < 6; i++ {
-		nextRound := map[coord]byte{}
-		inactiveCellsToCheck := map[coord]bool{}
-
-		for k, v := range grid {
-			n := len(neighbors(k, grid, '#', mode))
-			if v == '#' {
-				if n == 2 || n == 3 {
-					nextRound[k] = '#'
-				}
-				for _, ns := range neighbors(k, grid, 0, mode) {
-					inactiveCellsToCheck[ns] = true
+		nextRound := map[coord]bool{}
+		for ac := range grid {
+			active, inactive := neighbors(ac, grid, mode)
+			if len(active) == 2 || len(active) == 3 {
+				nextRound[ac] = true
+			}
+			for _, ic := range inactive {
+				active, _ := neighbors(ic, grid, mode)
+				if len(active) == 3 {
+					nextRound[ic] = true
 				}
 			}
 		}
-
-		for k := range inactiveCellsToCheck {
-			n := len(neighbors(k, grid, '#', mode))
-			if n == 3 {
-				nextRound[k] = '#'
-			}
-		}
-
 		grid = nextRound
 	}
 
-	count := 0
-	for _, v := range grid {
-		if v == '#' {
-			count++
-		}
-	}
-
-	return count
+	return len(grid)
 }
 
 func Test_part1(t *testing.T) {
